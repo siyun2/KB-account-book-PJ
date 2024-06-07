@@ -1,10 +1,10 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-
+import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <template>
   <div>시험입니다</div>
+  <div>김예림</div>
 </template>
 
 <style scoped>
