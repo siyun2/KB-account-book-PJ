@@ -1,10 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+// git 자기가 한거 올릴때 팀원들한테 다 말하고 하기! 깃을 끝나고 올릴건지 or 아침에 올리건지
 </script>
 
 <template>
   <div>시험입니다</div>
-  <div>김예림</div>
+  <div>이시윤</div>
 </template>
 
 <style scoped>
