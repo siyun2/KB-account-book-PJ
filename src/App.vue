@@ -1,78 +1,12 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router';
-import { RouterLink, RouterView } from 'vue-router';
-// git 자기가 한거 올릴때 팀원들한테 다 말하고 하기! 깃을 끝나고 올릴건지 or 아침에 올리건지
-import { RouterLink, RouterView } from 'vue-router';
-</script>
-
 <template>
-  <div>시험입니다</div>
-  <div>이시윤</div>
-  <div>김형규</div>
-  <div>김예림</div>
-  <div>이현지</div>
+  
+   <VCalendar expanded />
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<script setup>
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+</script>
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
+<style lang="scss" scoped>
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
 </style>
