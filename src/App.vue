@@ -1,78 +1,148 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router';
-import { RouterLink, RouterView } from 'vue-router';
-// git 자기가 한거 올릴때 팀원들한테 다 말하고 하기! 깃을 끝나고 올릴건지 or 아침에 올리건지
-import { RouterLink, RouterView } from 'vue-router';
-</script>
-
 <template>
-  <div>시험입니다</div>
-  <div>이시윤</div>
-  <div>김형규</div>
-  <div>김예림</div>
-  <div>이현지</div>
+  <h2>Live output</h2>
+  <div class="output" style="height: 500px; overflow: auto">
+    <label for="month">Select month: </label>
+    <select id="month">
+      <option value="January">January</option>
+      <option value="February">February</option>
+      <option value="March">March</option>
+      <option value="April">April</option>
+      <option value="May">May</option>
+      <option value="June">June</option>
+      <option value="July">July</option>
+      <option value="August">August</option>
+      <option value="September">September</option>
+      <option value="October">October</option>
+      <option value="November">November</option>
+      <option value="December">December</option>
+    </select>
+
+    <h1></h1>
+
+    <ul></ul>
+  </div>
 </template>
 
+<script>
+const textarea = document.getElementById('code');
+const reset = document.getElementById('reset');
+const solution = document.getElementById('solution');
+let code = textarea.value;
+let userEntry = textarea.value;
+
+function updateCode() {
+  eval(textarea.value);
+}
+
+reset.addEventListener('click', function () {
+  textarea.value = code;
+  userEntry = textarea.value;
+  solutionEntry = jsSolution;
+  solution.value = 'Show solution';
+  updateCode();
+});
+
+solution.addEventListener('click', function () {
+  if (solution.value === 'Show solution') {
+    textarea.value = solutionEntry;
+    solution.value = 'Hide solution';
+  } else {
+    textarea.value = userEntry;
+    solution.value = 'Show solution';
+  }
+  updateCode();
+});
+
+const jsSolution =
+  "const select = document.querySelector('select');\nconst list = document.querySelector('ul');\nconst h1 = document.querySelector('h1');\n\nselect.onchange = function() {\n const choice = select.value;\n let days = 31;\n if(choice === 'February') {\n days = 28;\n } else if(choice === 'April' || choice === 'June' || choice === 'September'|| choice === 'November') {\n days = 30;\n }\n\n createCalendar(days, choice);\n}\n\nfunction createCalendar(days, choice) {\n list.innerHTML = '';\n h1.textContent = choice;\n for(let i = 1; i <= days; i++) {\n const listItem = document.createElement('li');\n listItem.textContent = i;\n list.appendChild(listItem);\n }\n }\n\ncreateCalendar(31,'January');";
+let solutionEntry = jsSolution;
+
+textarea.addEventListener('input', updateCode);
+window.addEventListener('load', updateCode);
+
+// stop tab key tabbing out of textarea and
+// make it write a tab at the caret position instead
+
+textarea.onkeydown = function (e) {
+  if (e.keyCode === 9) {
+    e.preventDefault();
+    insertAtCaret('\t');
+  }
+
+  if (e.keyCode === 27) {
+    textarea.blur();
+  }
+};
+
+function insertAtCaret(text) {
+  const scrollPos = textarea.scrollTop;
+  let caretPos = textarea.selectionStart;
+  const front = textarea.value.substring(0, caretPos);
+  const back = textarea.value.substring(
+    textarea.selectionEnd,
+    textarea.value.length
+  );
+
+  textarea.value = front + text + back;
+  caretPos = caretPos + text.length;
+  textarea.selectionStart = caretPos;
+  textarea.selectionEnd = caretPos;
+  textarea.focus();
+  textarea.scrollTop = scrollPos;
+}
+
+// Update the saved userCode every time the user updates the text area code
+
+textarea.onkeyup = function () {
+  // We only want to save the state when the user code is being shown,
+  // not the solution, so that solution is not saved over the user code
+  if (solution.value === 'Show solution') {
+    userEntry = textarea.value;
+  } else {
+    solutionEntry = textarea.value;
+  }
+
+  updateCode();
+};
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.output * {
+  box-sizing: border-box;
 }
 
-.logo {
+.output ul {
+  padding-left: 0;
+}
+
+.output li {
   display: block;
-  margin: 0 auto 2rem;
+  float: left;
+  width: 25%;
+  border: 2px solid white;
+  padding: 5px;
+  height: 40px;
+  background-color: #4a2db6;
+  color: white;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+html {
+  font-family: sans-serif;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+h2 {
+  font-size: 16px;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.a11y-label {
+  margin: 0;
+  text-align: right;
+  font-size: 0.7rem;
+  width: 98%;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+body {
+  margin: 10px;
+  background: #f5f9fa;
 }
 </style>
