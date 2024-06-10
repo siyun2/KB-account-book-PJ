@@ -10,6 +10,7 @@ import { RouterLink, RouterView } from 'vue-router';
   <div>이시윤</div>
   <div>김형규</div>
   <div>김예림</div>
+  <div>이현지</div>
 </template>
 
 <style scoped>
