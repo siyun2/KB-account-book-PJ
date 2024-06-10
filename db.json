@@ -1,34 +1,46 @@
 {
-  "todos": [
+  "budget": [
     {
       "id": "1",
-      "todo": "야구장",
-      "desc": "프로야구 경기도 봐야합니다.",
-      "done": false
+      "data": "2024-06-10",
+      "type(income, expense)": "expense",
+      "category": "eat-out",
+      "detailCategor": "치킨",
+      "amount": "20000",
+      "memo": "치킨을 맛있게 먹음"
     },
     {
-      "id": "2",
-      "todo": "놀기",
-      "desc": "노는 것도 중요합니다.",
-      "done": false
+      "id": "3a0f",
+      "data": "2024-06-9",
+      "type(income, expense)": "expense",
+      "category": "eat-out",
+      "detailCategor": "치킨(뿌링클)+치즈볼볼",
+      "amount": "30000",
+      "memo": "치킨을 엄청 맛있게 먹음"
+    }
+  ],
+  "incomeCategory": [
+    {
+      "월급": "",
+      "용돈": "",
+      "기타 수입": "",
+      "주수입": "상여"
     },
     {
-      "id": "3",
-      "todo": "Vue 학습",
-      "desc": "Vue 학습을 해야 합니다",
-      "done": false
-    },
+      "id": "f164",
+      "월급": "",
+      "용돈": "20000",
+      "기타 수입": "",
+      "이자/배당" : ""
+    }
+  ],
+  "expenseCategory": [
     {
-      "id": "4",
-      "todo": "ES6 공부",
-      "desc": "ES6공부를 해야 합니다",
-      "done": false
-    },
-    {
-      "id": "a9d3",
-      "todo": "Rest 공부",
-      "desc": "REST API를 해야 합니다",
-      "done": false
+      "식비": "",
+      "교통비": "true",
+      "공과금": "",
+      "주거/통신" : "",
+      "취미" : ""
     }
   ]
 }
