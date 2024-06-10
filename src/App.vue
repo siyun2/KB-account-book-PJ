@@ -6,6 +6,7 @@ import { RouterLink, RouterView } from 'vue-router';
 <template>
   <div>시험입니다</div>
   <div>이시윤</div>
+  <div>김예림</div>
 </template>
 
 <style scoped>
