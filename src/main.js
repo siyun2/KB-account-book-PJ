@@ -16,4 +16,4 @@ app.use(router)
 app.use(VCalendar, {});
 
 app.mount('#app');
-app.use(BootstrapVue3);
+
