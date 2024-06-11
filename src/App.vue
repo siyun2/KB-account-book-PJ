@@ -169,13 +169,13 @@ export default {
   data() {
     return {
       weekNames: [
+        '일요일',
         '월요일',
         '화요일',
         '수요일',
         '목요일',
         '금요일',
         '토요일',
-        '일요일',
       ],
       rootYear: 1904,
       rootDayOfWeekIndex: 4, // 2000년 1월 1일은 토요일
@@ -277,7 +277,7 @@ export default {
             sumOfDay += this.getEndOfDay(year, month);
             month++;
           } else if (targetMonth == month) {
-            return sumOfDay % 7;
+            return (sumOfDay + 1) % 7; // 일요일을 첫번째 열로 변경
           }
         }
       }
