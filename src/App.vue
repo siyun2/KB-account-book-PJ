@@ -73,7 +73,7 @@
           <!-- Modal body -->
           <div class="modal-body">
             <div style="text-align: left">
-              <p sytle="font-size: 20px; font-weight: bold;">메모</p>
+              <p style="font-size: 20px; font-weight: bold;">메모</p>
               <div class="memo-section">
                 <textarea
                   v-model="memo"
@@ -84,8 +84,11 @@
             </div>
           </div>
           <div>
-            <a class="expense-tap" style="text-decoration-line: none"> 지출 </a>
-            <div>
+            <div class="btn-group" style="margin-bottom : 5px">
+              <button type="button" class="btn btn-outline-danger" @click="showTable = 'expense'">지출</button>
+              <button type="button" class="btn btn-outline-success" @click="showTable = 'income'">수입</button>
+            </div>
+            <div v-if="showTable === 'expense'">
               <table class="expense-table">
                 <thead class="expense-title">
                   <tr class="expense-title-row">
@@ -107,6 +110,37 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div v-if="showTable === 'income'">
+              <table class="income-table">
+                <thead class="income-title">
+                  <tr class="income-title-row">
+                    <th><input type="checkbox" /></th>
+                    <th>내역</th>
+                    <th>금액</th>
+                    <th>입금통장</th>
+                    <th>분류</th>
+                    <th>태그</th>
+                  </tr>
+                </thead>
+                <tbody class="income-data">
+                  <tr class="income-data-row">
+                    <td><input type="checkbox" /></td>
+                    <td><input type="text" style="width : 110px"></td>
+                    <td><input type="text" class="small-input"></td>
+                    <td><input type="text" class="small-input"></td>
+                    <td>
+                      <select class="form-select">
+                        <option>월급</option>
+                        <option>용돈</option>
+                        <option>기타 수입</option>
+                        <option>이자/배당</option>
+                      </select>
+                    </td>
+                    <td><input type="text" class="small-input"></td>
                   </tr>
                 </tbody>
               </table>
@@ -154,6 +188,7 @@ export default {
       memoDatas: [],
       incomeData: [],
       expenseData: [],
+      showTable: 'expense', // Add this line
     };
   },
   mounted() {
@@ -361,4 +396,29 @@ export default {
 .expense-data {
   border: 1px dashed gray;
 }
+
+.income-table {
+  border: 1px dashed gray;
+  width: 100%;
+}
+
+.income-title {
+  border: 1px dashed gray;
+}
+
+.income-title-row {
+  border: 1px dashed gray;
+}
+
+.income-data {
+  border: 1px dashed gray;
+}
+.small-input {
+  width: 80px; /* Adjust the width as per your requirement */
+}
+.form-select {
+  text-align: center; /* Center-align text */
+  text-align-last: center; /* Center-align the selected option in modern browsers */
+}
+
 </style>
