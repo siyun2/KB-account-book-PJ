@@ -13,12 +13,7 @@
               v-for="(weekName, index) in weekNames"
               v-bind:key="index"
               :style="{
-                color:
-                  weekName === '토요일'
-                    ? 'blue'
-                    : weekName === '일요일'
-                    ? 'red'
-                    : 'inherit',
+                color: weekName === '토요일' ? 'blue' : weekName === '일요일' ? 'red' : 'inherit',
               }"
             >
               {{ weekName }}
@@ -34,14 +29,15 @@
               @click="openModal(day)"
               data-bs-toggle="modal"
               data-bs-target="#myModal"
+              :style="{
+                color: isSaturday(colIndex) ? 'blue' : isSunday(colIndex) ? 'red' : 'inherit',
+              }"
             >
               <div>
                 <span v-if="day !== ''">
-                  <span
-                    v-if="isToday(currentYear, currentMonth, day)"
-                    class="today"
-                    >{{ day }}</span
-                  >
+                  <span v-if="isToday(currentYear, currentMonth, day)" class="today">{{
+                    day
+                  }}</span>
                   <span v-else>{{ day }}</span>
                 </span>
               </div>
@@ -51,8 +47,14 @@
       </table>
       <div class="total">
         <div>
-          수입합계: {{ calculateTotal('income') }} 지출합계:
-          {{ calculateTotal('expense') }}
+          <b>수입합계: </b
+          ><span style="color: green"
+            ><b> {{ calculateTotal('income') }} </b></span
+          >
+          <b> / 지출합계: </b
+          ><span style="color: red"
+            ><b> {{ calculateTotal('expense') }} </b></span
+          >
         </div>
       </div>
     </div>
@@ -64,11 +66,7 @@
           <!-- Modal Header -->
           <div class="modal-header">
             <h4 class="modal-title">가계부 쉽조</h4>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <!-- Modal body -->
           <div class="modal-body">
@@ -115,11 +113,7 @@
 
           <!-- Modal footer -->
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="saveMemo">
               저장
             </button>
           </div>
@@ -134,15 +128,7 @@ export default {
   name: 'Calendar',
   data() {
     return {
-      weekNames: [
-        '월요일',
-        '화요일',
-        '수요일',
-        '목요일',
-        '금요일',
-        '토요일',
-        '일요일',
-      ],
+      weekNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
       rootYear: 1904,
       rootDayOfWeekIndex: 4, // 2000년 1월 1일은 토요일
       currentYear: new Date().getFullYear(),
@@ -154,6 +140,8 @@ export default {
       memoDatas: [],
       incomeData: [],
       expenseData: [],
+      memo: '',
+      activeDate: null,
     };
   },
   mounted() {
@@ -161,10 +149,7 @@ export default {
   },
   methods: {
     init: function () {
-      this.currentMonthStartWeekIndex = this.getStartWeek(
-        this.currentYear,
-        this.currentMonth
-      );
+      this.currentMonthStartWeekIndex = this.getStartWeek(this.currentYear, this.currentMonth);
       this.endOfDay = this.getEndOfDay(this.currentYear, this.currentMonth);
       this.initCalendar();
       this.incomeData = [];
@@ -188,6 +173,13 @@ export default {
         this.currentCalendarMatrix.push(calendarRow);
       }
     },
+    openModal(day) {
+      this.activeDate = day;
+      this.memo = this.memoDatas[day] || '';
+    },
+    saveMemo() {
+      this.memoDatas[this.activeDate] = this.memo;
+    },
     calculateTotal(type) {
       let total = 0;
       const data = type === 'income' ? this.incomeData : this.expenseData;
@@ -196,7 +188,12 @@ export default {
       });
       return total;
     },
-
+    isSunday(dayIndex) {
+      return dayIndex === 6;
+    },
+    isSaturday(dayIndex) {
+      return dayIndex === 5;
+    },
     getEndOfDay: function (year, month) {
       switch (month) {
         case 1:
@@ -269,11 +266,7 @@ export default {
     },
     isToday: function (year, month, day) {
       let date = new Date();
-      return (
-        year == date.getFullYear() &&
-        month == date.getMonth() + 1 &&
-        day == date.getDate()
-      );
+      return year == date.getFullYear() && month == date.getMonth() + 1 && day == date.getDate();
     },
   },
 };
@@ -293,30 +286,36 @@ export default {
   bottom: 10px;
   right: 10px;
   text-align: right;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 .calendar {
   font-size: 18px; /* Increase font size */
-  border: 2px solid #000; /* Add border to the calendar */
+  border: 0.5px solid #000; /* Add border to the calendar */
   padding: 10px; /* Add padding around the calendar */
 }
 
 .table {
   width: 100%; /* Make table width 100% */
   border-collapse: collapse; /* Collapse borders to avoid double borders */
-  border: 2px solid #000; /* Add border around the table */
+  border: 1px solid white; /* Add border around the table */
 }
 
 .table thead {
-  border-bottom: 2px solid #000; /* Add bottom border to thead */
+  border-bottom: 1px solid darkgray; /* Add bottom border to thead */
 }
 
 .table td {
   font-weight: bold;
   padding: 10px; /* Increase padding - 50px for all sides */
-  border: 1px solid #000; /* Add border to each cell */
+  border: 1px solid darkgray; /* Add border to each cell */
   position: relative; /* Set position to relative for td */
+  background-color: lightgray;
+}
+
+.table thead td {
+  background-color: rgb(180, 180, 180);
+  color: #fff;
 }
 
 .table td:last-child {
