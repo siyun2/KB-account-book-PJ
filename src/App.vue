@@ -89,7 +89,7 @@
                   <tr class="expense-title-row">
                     <th><input type="checkbox" /></th>
                     <th>사용내역</th>
-                    <th>현금</th>
+                    <th>현금33333</th>
                     <th>카드</th>
                     <th>카드분류</th>
                     <th>분류</th>
