@@ -5,7 +5,7 @@
       "data": "2024-06-10",
       "type(income, expense)": "expense",
       "category": "eat-out",
-      "detailCategor": "치킨",
+      "detailCategory": "치킨",
       "amount": "20000",
       "memo": "치킨을 맛있게 먹음"
     },
@@ -14,7 +14,7 @@
       "data": "2024-06-9",
       "type(income, expense)": "expense",
       "category": "eat-out",
-      "detailCategor": "치킨(뿌링클)+치즈볼볼",
+      "detailCategory": "치킨(뿌링클)+치즈볼볼",
       "amount": "30000",
       "memo": "치킨을 엄청 맛있게 먹음"
     }
@@ -25,7 +25,7 @@
       "월급": "",
       "용돈": "20000",
       "기타 수입": "",
-      "이자/배당" : ""
+      "이자/배당": ""
     }
   ],
   "expenseCategory": [
@@ -33,8 +33,8 @@
       "식비": "",
       "교통비": "true",
       "공과금": "",
-      "주거/통신" : "",
-      "취미" : ""
+      "주거/통신": "",
+      "취미": ""
     }
   ]
 }
