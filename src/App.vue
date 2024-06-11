@@ -3,36 +3,60 @@
     <div class="calendar">
       <h2>
         <a href="#" v-on:click="onClickPrev(currentMonth)">◀</a>
-        {{currentYear}}년 {{currentMonth}}월
+        {{ currentYear }}년 {{ currentMonth }}월
         <a href="#" v-on:click="onClickNext(currentMonth)">▶</a>
       </h2>
       <table class="table table-hovers">
         <thead>
           <tr>
-            <td v-for="(weekName, index) in weekNames" v-bind:key="index" :style="{ color: weekName === '토요일' ? 'blue' : (weekName === '일요일' ? 'red' : 'inherit') }">
-              {{weekName}}
+            <td
+              v-for="(weekName, index) in weekNames"
+              v-bind:key="index"
+              :style="{
+                color:
+                  weekName === '토요일'
+                    ? 'blue'
+                    : weekName === '일요일'
+                    ? 'red'
+                    : 'inherit',
+              }"
+            >
+              {{ weekName }}
             </td>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(row, rowIndex) in currentCalendarMatrix" :key="rowIndex">
-            <td v-for="(day, colIndex) in row" :key="colIndex" style="padding: 50px; cursor: pointer;" @click="openModal(day)" data-bs-toggle="modal" data-bs-target="#myModal">
+            <td
+              v-for="(day, colIndex) in row"
+              :key="colIndex"
+              style="padding: 50px; cursor: pointer"
+              @click="openModal(day)"
+              data-bs-toggle="modal"
+              data-bs-target="#myModal"
+            >
               <div>
                 <span v-if="day !== ''">
-                  <span v-if="isToday(currentYear, currentMonth, day)" class="today">{{day}}</span>
-                  <span v-else>{{day}}</span>
+                  <span
+                    v-if="isToday(currentYear, currentMonth, day)"
+                    class="today"
+                    >{{ day }}</span
+                  >
+                  <span v-else>{{ day }}</span>
                 </span>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-          <div class="total">
-      <div>수입합계: {{ calculateTotal('income') }} 지출합계: {{ calculateTotal('expense') }}</div>
+      <div class="total">
+        <div>
+          수입합계: {{ calculateTotal('income') }} 지출합계:
+          {{ calculateTotal('expense') }}
+        </div>
+      </div>
     </div>
 
-    </div>
-    
     <!-- The Modal -->
     <div class="modal" id="myModal">
       <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -40,16 +64,23 @@
           <!-- Modal Header -->
           <div class="modal-header">
             <h4 class="modal-title">가계부 쉽조</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
           </div>
           <!-- Modal body -->
           <div class="modal-body">
-            <div class="memo-section">
-              <textarea
-                v-model="memo"
-                placeholder="메모를 입력하세요..."
-                class="memo-textarea"
-              ></textarea>
+            <div style="text-align: left">
+              <p sytle="font-size: 20px; font-weight: bold;">메모</p>
+              <div class="memo-section">
+                <textarea
+                  v-model="memo"
+                  placeholder="메모를 입력하세요..."
+                  class="memo-textarea"
+                ></textarea>
+              </div>
             </div>
           </div>
           <div>
@@ -83,25 +114,35 @@
           </div>
 
           <!-- Modal footer -->
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">저장</button>
-            </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              저장
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  
 </template>
-
-
-
 
 <script>
 export default {
   name: 'Calendar',
-  data () {
+  data() {
     return {
-      weekNames: ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
+      weekNames: [
+        '월요일',
+        '화요일',
+        '수요일',
+        '목요일',
+        '금요일',
+        '토요일',
+        '일요일',
+      ],
       rootYear: 1904,
       rootDayOfWeekIndex: 4, // 2000년 1월 1일은 토요일
       currentYear: new Date().getFullYear(),
@@ -113,20 +154,21 @@ export default {
       memoDatas: [],
       incomeData: [],
       expenseData: [],
-
-    }
+    };
   },
   mounted() {
     this.init();
   },
   methods: {
     init: function () {
-      this.currentMonthStartWeekIndex = this.getStartWeek(this.currentYear, this.currentMonth);
+      this.currentMonthStartWeekIndex = this.getStartWeek(
+        this.currentYear,
+        this.currentMonth
+      );
       this.endOfDay = this.getEndOfDay(this.currentYear, this.currentMonth);
       this.initCalendar();
       this.incomeData = [];
       this.expenseData = [];
-
     },
     initCalendar: function () {
       this.currentCalendarMatrix = [];
@@ -135,18 +177,18 @@ export default {
         let calendarRow = [];
         for (let j = 0; j < 7; j++) {
           if (i == 0 && j < this.currentMonthStartWeekIndex) {
-            calendarRow.push("");
+            calendarRow.push('');
           } else if (day <= this.endOfDay) {
             calendarRow.push(day);
             day++;
           } else {
-            calendarRow.push("");
+            calendarRow.push('');
           }
         }
         this.currentCalendarMatrix.push(calendarRow);
       }
     },
-        calculateTotal(type) {
+    calculateTotal(type) {
       let total = 0;
       const data = type === 'income' ? this.incomeData : this.expenseData;
       data.forEach((item) => {
@@ -173,14 +215,14 @@ export default {
           return 30;
           break;
         case 2:
-          if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
+          if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
             return 29;
           } else {
             return 28;
           }
           break;
         default:
-          console.log("unknown month " + month);
+          console.log('unknown month ' + month);
           return 0;
           break;
       }
@@ -200,7 +242,7 @@ export default {
             sumOfDay += this.getEndOfDay(year, month);
             month++;
           } else if (targetMonth == month) {
-            return (sumOfDay) % 7;
+            return sumOfDay % 7;
           }
         }
       }
@@ -227,12 +269,14 @@ export default {
     },
     isToday: function (year, month, day) {
       let date = new Date();
-      return year == date.getFullYear() && month == date.getMonth() + 1 && day == date.getDate();
+      return (
+        year == date.getFullYear() &&
+        month == date.getMonth() + 1 &&
+        day == date.getDate()
+      );
     },
-    
-   
-  }
-}
+  },
+};
 </script>
 
 <style type="text/css">
