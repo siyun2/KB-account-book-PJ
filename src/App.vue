@@ -63,7 +63,7 @@
         <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">가계부 쉽조</h4>
+            <h4 class="modal-title">가계부 쉽조1</h4>
             <button
               type="button"
               class="btn-close"
