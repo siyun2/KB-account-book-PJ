@@ -34,6 +34,9 @@
               @click="openModal(day)"
               data-bs-toggle="modal"
               data-bs-target="#myModal"
+              :style="{
+                color: isSaturday(colIndex) ? 'blue' : isSunday(colIndex) ? 'red' : 'inherit',
+              }"
             >
               <div>
                 <span v-if="day !== ''">
@@ -51,8 +54,14 @@
       </table>
       <div class="total">
         <div>
-          수입합계: {{ calculateTotal('income') }} 지출합계:
-          {{ calculateTotal('expense') }}
+          <b>수입합계: </b
+          ><span style="color: green"
+            ><b> {{ calculateTotal('income') }} </b></span
+          >
+          <b> / 지출합계: </b
+          ><span style="color: red"
+            ><b> {{ calculateTotal('expense') }} </b></span
+          >
         </div>
       </div>
     </div>
@@ -73,7 +82,7 @@
           <!-- Modal body -->
           <div class="modal-body">
             <div style="text-align: left">
-              <p style="font-size: 20px; font-weight: bold;">메모</p>
+              <p style="font-size: 20px; font-weight: bold">메모</p>
               <div class="memo-section">
                 <textarea
                   v-model="memo"
@@ -84,9 +93,13 @@
             </div>
           </div>
           <div>
-            <div class="btn-group" style="margin-bottom : 5px">
-              <button type="button" class="btn btn-outline-danger" @click="showTable = 'expense'">지출</button>
-              <button type="button" class="btn btn-outline-success" @click="showTable = 'income'">수입</button>
+            <div class="btn-group" style="margin-bottom: 5px">
+              <button type="button" class="btn btn-outline-danger" @click="showTable = 'expense'">
+                지출
+              </button>
+              <button type="button" class="btn btn-outline-success" @click="showTable = 'income'">
+                수입
+              </button>
             </div>
             <div v-if="showTable === 'expense'">
               <table class="expense-table">
@@ -129,9 +142,9 @@
                 <tbody class="income-data">
                   <tr class="income-data-row">
                     <td><input type="checkbox" /></td>
-                    <td><input type="text" style="width : 110px"></td>
-                    <td><input type="text" class="small-input"></td>
-                    <td><input type="text" class="small-input"></td>
+                    <td><input type="text" style="width: 110px" /></td>
+                    <td><input type="text" class="small-input" /></td>
+                    <td><input type="text" class="small-input" /></td>
                     <td>
                       <select class="form-select">
                         <option>월급</option>
@@ -140,7 +153,7 @@
                         <option>이자/배당</option>
                       </select>
                     </td>
-                    <td><input type="text" class="small-input"></td>
+                    <td><input type="text" class="small-input" /></td>
                   </tr>
                 </tbody>
               </table>
@@ -153,6 +166,7 @@
               type="button"
               class="btn btn-danger"
               data-bs-dismiss="modal"
+              @click="saveMemo"
             >
               저장
             </button>
@@ -189,6 +203,8 @@ export default {
       incomeData: [],
       expenseData: [],
       showTable: 'expense', // Add this line
+      memo: '',
+      activeDate: null,
     };
   },
   mounted() {
@@ -223,6 +239,13 @@ export default {
         this.currentCalendarMatrix.push(calendarRow);
       }
     },
+    openModal(day) {
+      this.activeDate = day;
+      this.memo = this.memoDatas[day] || '';
+    },
+    saveMemo() {
+      this.memoDatas[this.activeDate] = this.memo;
+    },
     calculateTotal(type) {
       let total = 0;
       const data = type === 'income' ? this.incomeData : this.expenseData;
@@ -231,7 +254,12 @@ export default {
       });
       return total;
     },
-
+    isSunday(dayIndex) {
+      return dayIndex === 0;
+    },
+    isSaturday(dayIndex) {
+      return dayIndex === 6;
+    },
     getEndOfDay: function (year, month) {
       switch (month) {
         case 1:
@@ -304,11 +332,7 @@ export default {
     },
     isToday: function (year, month, day) {
       let date = new Date();
-      return (
-        year == date.getFullYear() &&
-        month == date.getMonth() + 1 &&
-        day == date.getDate()
-      );
+      return year == date.getFullYear() && month == date.getMonth() + 1 && day == date.getDate();
     },
   },
 };
@@ -328,30 +352,36 @@ export default {
   bottom: 10px;
   right: 10px;
   text-align: right;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 .calendar {
   font-size: 18px; /* Increase font size */
-  border: 2px solid #000; /* Add border to the calendar */
+  border: 0.5px solid #000; /* Add border to the calendar */
   padding: 10px; /* Add padding around the calendar */
 }
 
 .table {
   width: 100%; /* Make table width 100% */
   border-collapse: collapse; /* Collapse borders to avoid double borders */
-  border: 2px solid #000; /* Add border around the table */
+  border: 1px solid white; /* Add border around the table */
 }
 
 .table thead {
-  border-bottom: 2px solid #000; /* Add bottom border to thead */
+  border-bottom: 1px solid darkgray; /* Add bottom border to thead */
 }
 
 .table td {
   font-weight: bold;
   padding: 10px; /* Increase padding - 50px for all sides */
-  border: 1px solid #000; /* Add border to each cell */
+  border: 1px solid darkgray; /* Add border to each cell */
   position: relative; /* Set position to relative for td */
+  background-color: lightgray;
+}
+
+.table thead td {
+  background-color: rgb(180, 180, 180);
+  color: #fff;
 }
 
 .table td:last-child {
@@ -420,5 +450,4 @@ export default {
   text-align: center; /* Center-align text */
   text-align-last: center; /* Center-align the selected option in modern browsers */
 }
-
 </style>
